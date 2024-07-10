@@ -1,15 +1,15 @@
 /* eslint-disable react/react-in-jsx-scope */
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './App.css'
 import { Todos } from './Componentes/Todos'
-import { mockTodos } from './Mocks/mockTodos'
-import { FilterValue, TodoTitle, type TodoId, type Todo as TodoType } from './types'
+import { FilterValue, TodoContextType, type TodoId, type Todo as TodoType } from './types'
 import { TODO_FILTERS } from './const'
 import { Footer } from './Componentes/Footer'
 import { Header } from './Componentes/Header'
+import { TodoContext } from './contexts/todoContext'
 
 const App = (): React.JSX.Element => {
-  const [todos, setTodos] = useState(mockTodos)
+  const { todos, setTodos } = useContext<TodoContextType>(TodoContext)
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
 
   const handleRemove = ({ id }: TodoId): void => {
@@ -49,20 +49,9 @@ const App = (): React.JSX.Element => {
     return todo
   })
 
-  const handleAddTodo = ({ title }: TodoTitle): void => {
-    const newTodo = {
-      title,
-      id: crypto.randomUUID(),
-      completed: false
-    }
-
-    const newTodos = [...todos, newTodo]
-    setTodos(newTodos)
-  }
-
   return (
     <div className='todoapp'>
-      <Header onAddTodo={handleAddTodo} />
+      <Header />
       <Todos
         onToggleCompleted={handleComplete}
         onRemoveTodo={handleRemove}

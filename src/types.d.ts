@@ -19,3 +19,8 @@ export interface Props {
   onRemoveTodo: ({ id }: TodoId) => void
   onToggleCompleted: ({ id, completed }: Pick<TodoType, 'id' | 'completed'>) => void
 }
+
+export interface TodoContextType {
+  todos: Todo[]
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+}

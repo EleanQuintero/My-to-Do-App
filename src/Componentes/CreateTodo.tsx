@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
-import { TodoTitle } from '../types'
+import React, { useContext, useState } from 'react'
+import { TodoContextType, TodoTitle } from '../types'
+import { TodoContext } from '../contexts/todoContext'
 
-interface Props {
-  saveTodo: (title: TodoTitle) => void
-}
-
-export const CreateTodo: React.FC<Props> = ({ saveTodo }) => {
+export const CreateTodo: React.FC = () => {
+  const { todos, setTodos } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
+
+  const handleAddTodo = ({ title }: TodoTitle): void => {
+    const newTodo = {
+      title,
+      id: crypto.randomUUID(),
+      completed: false
+    }
+
+    const newTodos = [...todos, newTodo]
+    setTodos(newTodos)
+  }
 
   const handleSubmit = (Event: React.FormEvent<HTMLFormElement>): void => {
     Event.preventDefault()
-    saveTodo({ title: inputValue })
+    handleAddTodo({ title: inputValue })
     setInputValue('')
+    console.log(todos)
   }
 
   return (
