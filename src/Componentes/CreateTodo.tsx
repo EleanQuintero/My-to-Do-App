@@ -19,9 +19,13 @@ export const CreateTodo: React.FC = () => {
 
   const handleSubmit = (Event: React.FormEvent<HTMLFormElement>): void => {
     Event.preventDefault()
-    handleAddTodo({ title: inputValue })
-    setInputValue('')
-    console.log(todos)
+
+    if (inputValue === '') setInputValue('')
+
+    if (inputValue !== '') {
+      handleAddTodo({ title: inputValue })
+      setInputValue('')
+    }
   }
 
   return (

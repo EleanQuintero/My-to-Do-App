@@ -16,11 +16,11 @@ export type ListOfTodos = Todo[]
 
 export interface Props {
   todos: ListOfTodos
-  onRemoveTodo: ({ id }: TodoId) => void
-  onToggleCompleted: ({ id, completed }: Pick<TodoType, 'id' | 'completed'>) => void
 }
 
 export interface TodoContextType {
   todos: Todo[]
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+  filterSelected: FilterValue
+  setFilterSelected: React.Dispatch<React.SetStateAction< FilterValue>>
 }
