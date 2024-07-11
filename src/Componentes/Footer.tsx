@@ -1,43 +1,33 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Filters } from './Filters'
-import { FilterValue } from '../types'
+import { TodoContextType } from '../types'
+import { TodoContext } from '../contexts/todoContext'
 
-interface Props {
-  activeCount: number
-  completedCount: number
-  filterSelected: FilterValue
-  onClearCompleted: () => void
-  handleFilterChange: (filter: FilterValue) => void
-}
+export const Footer: React.FC = () => {
+  const { todos, setTodos } = useContext<TodoContextType>(TodoContext)
 
-export const Footer: React.FC<Props> = ({
-  activeCount = 0,
-  completedCount = 0,
-  filterSelected,
-  handleFilterChange,
-  onClearCompleted
-}) => {
+  const activeCount = todos.filter(todo => !todo.completed).length
+  const completedCount = todos.length - activeCount
+
+  const handleRemoveAllCompleted = (): void => {
+    const newTodos = todos.filter(todo => !todo.completed)
+    setTodos(newTodos)
+  }
+
   return (
     <footer className='footer'>
       <span className='todo-count'>
         <strong>{activeCount}</strong> tareas pendientes
       </span>
-
-      <Filters
-        filterSelected={filterSelected}
-        onFilterChange={handleFilterChange}
-      />
-
-      {
-        completedCount > 0 && (
-          <button
-            className='clear-completed'
-            onClick={onClearCompleted}
-          >
-            Borrar completadas
-          </button>
-        )
-      }
+      <Filters />
+      {completedCount > 0 && (
+        <button
+          className='clear-completed'
+          onClick={handleRemoveAllCompleted}
+        >
+          Borrar completadas
+        </button>
+      )}
     </footer>
   )
 }
