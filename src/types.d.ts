@@ -23,4 +23,6 @@ export interface TodoContextType {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
   filterSelected: FilterValue
   setFilterSelected: React.Dispatch<React.SetStateAction< FilterValue>>
+  isEditing: string
+  setIsEditing: React.Dispatch<React.SetStateAction<string>>
 }

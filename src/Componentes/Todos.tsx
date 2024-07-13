@@ -2,10 +2,11 @@ import React, { useContext } from 'react'
 import { Todo } from './Todo'
 import { TodoContext } from '../contexts/todoContext'
 import { TODO_FILTERS } from '../const'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 export const Todos: React.FC = () => {
-  const { todos, filterSelected } = useContext(TodoContext)
-
+  const [parent] = useAutoAnimate()
+  const { todos, filterSelected, setIsEditing, isEditing } = useContext(TodoContext)
   const filteredTodos = todos.filter(todo => {
     if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.completed
     if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
@@ -13,11 +14,15 @@ export const Todos: React.FC = () => {
   })
 
   return (
-    <ul className='todo-list'>
+    <ul className='todo-list' ref={parent}>
       {filteredTodos.map(todo => (
         <li
           key={todo.id}
-          className={`${todo.completed ? 'completed' : ''} `}
+          onDoubleClick={() => { setIsEditing(todo.id) }}
+          className={`
+            ${todo.completed ? 'completed' : ''} 
+            ${isEditing === todo.id ? 'editing' : ''}
+            `}
         >
           <Todo
             key={todo.id}

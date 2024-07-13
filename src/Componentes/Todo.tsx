@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { TodoId, Todo as TodoType } from '../types'
 import { TodoContext } from '../contexts/todoContext'
 
@@ -6,7 +6,9 @@ interface Props extends TodoType {
 }
 
 export const Todo: React.FC <Props> = ({ id, title, completed }) => {
-  const { todos, setTodos } = useContext(TodoContext)
+  const { todos, setTodos, isEditing, setIsEditing } = useContext(TodoContext)
+  const [editedTitle, setEditedTitle] = useState(title)
+  const inputEditTitle = useRef<HTMLInputElement>(null)
 
   const handleRemove = ({ id }: TodoId): void => {
     const newTodos = todos.filter(todo => todo.id !== id)
@@ -27,22 +29,72 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
     setTodos(newTodos)
   }
 
+  const handleUpdateTitle = ({ id, title }: { id: string, title: string }): void => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          title
+        }
+      }
+      return todo
+    })
+
+    setTodos(newTodos)
+  }
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      setEditedTitle(editedTitle.trim())
+      setIsEditing('')
+    }
+
+    if (editedTitle !== title) {
+      handleUpdateTitle({ id, title: editedTitle })
+    }
+
+    if (editedTitle === '') {
+      handleRemove({ id })
+      setIsEditing('')
+    }
+
+    if (e.key === 'Escape') {
+      setEditedTitle(title)
+      setIsEditing('')
+    }
+  }
+
+  useEffect(() => {
+    inputEditTitle.current?.focus()
+  }, [isEditing])
+
   return (
-    <div className='view'>
+    <>
+      <div className='view'>
+        <input
+          className='toggle'
+          checked={completed}
+          type='checkbox'
+          onChange={(event) => {
+            handleComplete({ id, completed: event.target.checked })
+          }}
+        />
+        <label>{title}</label>
+        <button
+          className='destroy'
+          onClick={() => { handleRemove({ id }) }}
+        />
+      </div>
+
       <input
-        className='toggle'
-        checked={completed}
-        type='checkbox'
-        onChange={(event) => {
-          handleComplete({ id, completed: event.target.checked })
-        }}
+        className='edit'
+        value={editedTitle}
+        onChange={(e) => { setEditedTitle(e.target.value) }}
+        onKeyDown={handleKeyDown}
+        onBlur={() => { setIsEditing('') }}
+        ref={inputEditTitle}
       />
-      <label>{title}</label>
-      <button
-        className='destroy'
-        onClick={() => { handleRemove({ id }) }}
-      />
-    </div>
+    </>
 
   )
 }

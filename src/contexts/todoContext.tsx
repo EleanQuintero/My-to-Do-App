@@ -11,19 +11,24 @@ export const TodoContext = createContext<TodoContextType>({
   todos: [],
   setTodos: () => {},
   filterSelected: TODO_FILTERS.ALL,
-  setFilterSelected: () => {}
+  setFilterSelected: () => {},
+  isEditing: '',
+  setIsEditing: () => {}
 })
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const TodoProvider: React.FC<Props> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>(mockTodos)
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
+  const [isEditing, setIsEditing] = useState('')
   return (
     <TodoContext.Provider value={{
       todos,
       setTodos,
       filterSelected,
-      setFilterSelected
+      setFilterSelected,
+      isEditing,
+      setIsEditing
     }}
     >
       {children}
