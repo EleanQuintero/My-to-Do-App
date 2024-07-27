@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useContext } from 'react'
 import { Filters } from './Filters'
 import { TodoContextType } from '../types'
 import { TodoContext } from '../contexts/todoContext'
+import { useTodos } from '../hooks/useTodos'
 
 export const Footer: React.FC = () => {
   const { todos, setTodos } = useContext<TodoContextType>(TodoContext)
-
-  const activeCount = todos.filter(todo => !todo.completed).length
-  const completedCount = todos.length - activeCount
-
+  const { getTodos } = useTodos()
+  const activeCount = (todos ?? []).filter(todo => !todo.completed).length
+  const completedCount = (todos ?? []).length - activeCount
   const handleRemoveAllCompleted = (): void => {
-    const newTodos = todos.filter(todo => !todo.completed)
+    const newTodos = todos?.filter(todo => !todo.completed)
     setTodos(newTodos)
   }
 
@@ -20,6 +21,7 @@ export const Footer: React.FC = () => {
         <strong>{activeCount}</strong> tareas pendientes
       </span>
       <Filters />
+      <button className='clear-completed' onClick={getTodos} />
       {completedCount > 0 && (
         <button
           className='clear-completed'

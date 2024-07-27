@@ -1,5 +1,4 @@
 import { createContext, useState } from 'react'
-import { mockTodos } from '../Mocks/mockTodos'
 import { FilterValue, Todo, TodoContextType } from '../types'
 import { TODO_FILTERS } from '../const'
 
@@ -18,7 +17,7 @@ export const TodoContext = createContext<TodoContextType>({
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const TodoProvider: React.FC<Props> = ({ children }) => {
-  const [todos, setTodos] = useState<Todo[]>(mockTodos)
+  const [todos, setTodos] = useState<Todo[] | undefined>([])
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
   const [isEditing, setIsEditing] = useState('')
   return (
