@@ -7,6 +7,8 @@ interface Props {
 }
 
 export const TodoContext = createContext<TodoContextType>({
+  sync: false,
+  setSync: () => {},
   todos: [],
   setTodos: () => {},
   filterSelected: TODO_FILTERS.ALL,
@@ -17,7 +19,8 @@ export const TodoContext = createContext<TodoContextType>({
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const TodoProvider: React.FC<Props> = ({ children }) => {
-  const [todos, setTodos] = useState<Todo[] | undefined>([])
+  const [sync, setSync] = useState(false)
+  const [todos, setTodos] = useState<Todo[]>([])
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
   const [isEditing, setIsEditing] = useState('')
   return (
@@ -27,7 +30,9 @@ export const TodoProvider: React.FC<Props> = ({ children }) => {
       filterSelected,
       setFilterSelected,
       isEditing,
-      setIsEditing
+      setIsEditing,
+      sync,
+      setSync
     }}
     >
       {children}

@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { TodoContextType, TodoTitle } from '../types'
 import { TodoContext } from '../contexts/todoContext'
+import { useTodos } from '../hooks/useTodos'
 
 export const CreateTodo: React.FC = () => {
-  const { todos, setTodos } = useContext<TodoContextType>(TodoContext)
+  const { todos, setTodos, sync } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
+  const { postTodo, getTodos } = useTodos()
 
   const handleAddTodo = ({ title }: TodoTitle): void => {
     const newTodo = {
@@ -12,9 +14,14 @@ export const CreateTodo: React.FC = () => {
       id: crypto.randomUUID(),
       completed: false
     }
-
-    const newTodos = [...todos, newTodo]
-    setTodos(newTodos)
+    if (sync) {
+      void postTodo(newTodo)
+      void getTodos()
+    }
+    if (!sync) {
+      const newTodos = [...todos, newTodo]
+      setTodos(newTodos)
+    }
   }
 
   const handleSubmit = (Event: React.FormEvent<HTMLFormElement>): void => {

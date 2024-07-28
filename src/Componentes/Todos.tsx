@@ -9,7 +9,7 @@ export const Todos: React.FC = () => {
   const [parent] = useAutoAnimate()
   const { getTodos } = useTodos()
   const { todos, filterSelected, setIsEditing, isEditing } = useContext(TodoContext)
-  const filteredTodos = todos?.filter(todo => {
+  const filteredTodos = todos.filter(todo => {
     if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.completed
     if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
     return todo

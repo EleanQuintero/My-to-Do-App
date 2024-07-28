@@ -19,10 +19,12 @@ export interface Props {
 }
 
 export interface TodoContextType {
-  todos: Todo[] | undefined
-  setTodos: React.Dispatch<React.SetStateAction<Todo[] | undefined>>
+  todos: Todo[]
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
   filterSelected: FilterValue
   setFilterSelected: React.Dispatch<React.SetStateAction< FilterValue>>
   isEditing: string
   setIsEditing: React.Dispatch<React.SetStateAction<string>>
+  sync: boolean
+  setSync: React.Dispatch<React.SetStateAction<boolean>>
 }
