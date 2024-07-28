@@ -11,12 +11,12 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
   const inputEditTitle = useRef<HTMLInputElement>(null)
 
   const handleRemove = ({ id }: TodoId): void => {
-    const newTodos = todos?.filter(todo => todo.id !== id)
+    const newTodos = todos.filter(todo => todo.id !== id)
     setTodos(newTodos)
   }
 
   const handleComplete = ({ id, completed }: Pick<TodoType, 'id' | 'completed'>): void => {
-    const newTodos = todos?.map(todo => {
+    const newTodos = todos.map(todo => {
       if (todo.id === id) {
         return {
           ...todo,
@@ -30,7 +30,7 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
   }
 
   const handleUpdateTitle = ({ id, title }: { id: string, title: string }): void => {
-    const newTodos = todos?.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         return {
           ...todo,
