@@ -9,18 +9,18 @@ export const CreateTodo: React.FC = () => {
   const { postTodo, getTodos } = useTodos()
 
   const handleAddTodo = ({ title }: TodoTitle): void => {
-    const newTodo = {
-      title,
+    const newTodo = [{
       id: crypto.randomUUID(),
+      title,
       completed: false
-    }
+    }]
     if (sync) {
       void postTodo(newTodo)
       void getTodos()
     }
     if (!sync) {
       const newTodos = [...todos, newTodo]
-      setTodos(newTodos)
+      setTodos(newTodos[0])
     }
   }
 

@@ -17,10 +17,10 @@ export const TodoContext = createContext<TodoContextType>({
   setIsEditing: () => {}
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const TodoProvider: React.FC<Props> = ({ children }) => {
+  const initialvalue: Todo[] = []
   const [sync, setSync] = useState(false)
-  const [todos, setTodos] = useState<Todo[]>([])
+  const [todos, setTodos] = useState<Todo[]>(initialvalue)
   const [filterSelected, setFilterSelected] = useState<FilterValue>(TODO_FILTERS.ALL)
   const [isEditing, setIsEditing] = useState('')
   return (
