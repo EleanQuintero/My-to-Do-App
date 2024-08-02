@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { TodoId, Todo as TodoType } from '../types'
 import { TodoContext } from '../contexts/todoContext'
+import { useTodos } from '../hooks/useTodos'
 
 interface Props extends TodoType {
 }
 
 export const Todo: React.FC <Props> = ({ id, title, completed }) => {
-  const { todos, setTodos, isEditing, setIsEditing } = useContext(TodoContext)
+  const { todos, setTodos, isEditing, setIsEditing, sync } = useContext(TodoContext)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputEditTitle = useRef<HTMLInputElement>(null)
+  const { updateTodo } = useTodos()
 
   const handleRemove = ({ id }: TodoId): void => {
     const newTodos = todos.filter(todo => todo.id !== id)
@@ -16,8 +18,11 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
   }
 
   const handleComplete = ({ id, completed }: Pick<TodoType, 'id' | 'completed'>): void => {
-    const newTodos = todos.map(todo => {
+    const newTodos = todos.map((todo) => {
       if (todo.id === id) {
+        if (sync) {
+          void updateTodo({ id, completed })
+        }
         return {
           ...todo,
           completed
@@ -32,6 +37,9 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
   const handleUpdateTitle = ({ id, title }: { id: string, title: string }): void => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
+        if (sync) {
+          void updateTodo({ id, title })
+        }
         return {
           ...todo,
           title
