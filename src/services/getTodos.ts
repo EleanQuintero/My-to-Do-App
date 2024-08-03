@@ -1,5 +1,5 @@
 import { Todo } from '../types'
-import { API_URL } from '../consts/consts'
+import { API_URL } from '../api_Endpoints/Endpoints'
 
 export const useFetchTodos = async (): Promise<Todo[] | undefined> => {
   try {

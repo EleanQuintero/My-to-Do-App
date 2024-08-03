@@ -1,7 +1,7 @@
 import './App.css'
-import { Todos } from './Componentes/Todos'
-import { Footer } from './Componentes/Footer'
-import { Header } from './Componentes/Header'
+import { Todos } from './components/Todos'
+import { Footer } from './components/Footer'
+import { Header } from './components/Header'
 
 const App = (): React.JSX.Element => {
   return (

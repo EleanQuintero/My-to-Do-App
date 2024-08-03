@@ -10,10 +10,15 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
   const { todos, setTodos, isEditing, setIsEditing, sync } = useContext(TodoContext)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputEditTitle = useRef<HTMLInputElement>(null)
-  const { updateTodo } = useTodos()
+  const { updateTodo, deleteTodo } = useTodos()
 
   const handleRemove = ({ id }: TodoId): void => {
     const newTodos = todos.filter(todo => todo.id !== id)
+    if (!sync) {
+      setTodos(newTodos)
+    }
+
+    void deleteTodo({ id })
     setTodos(newTodos)
   }
 
