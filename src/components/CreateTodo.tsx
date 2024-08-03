@@ -9,18 +9,23 @@ export const CreateTodo: React.FC = () => {
   const { postTodo, getTodos } = useTodos()
 
   const handleAddTodo = ({ title }: TodoTitle): void => {
-    const newTodo = [{
-      id: crypto.randomUUID(),
-      title,
-      completed: false
-    }]
     if (sync) {
+      const newTodo = [{
+        id: crypto.randomUUID(),
+        title,
+        completed: false
+      }]
       void postTodo(newTodo)
       void getTodos()
     }
     if (!sync) {
-      const newTodos = [...todos, newTodo]
-      setTodos(newTodos[0])
+      const newLocalTodo = {
+        id: crypto.randomUUID(),
+        title,
+        completed: false
+      }
+      const newTodos = [...todos, newLocalTodo]
+      setTodos(newTodos)
     }
   }
 

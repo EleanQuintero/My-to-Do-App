@@ -2,12 +2,13 @@ import { useCallback, useContext } from 'react'
 import { TodoContext } from '../contexts/todoContext'
 import { useFetchTodos } from '../services/getTodos'
 import { Todo, UpdateTodoProps, uuid } from '../types'
-import { API_URL } from '../consts/consts'
+import { API_URL } from '../api_Endpoints/Endpoints'
 
 interface useTodosType {
   getTodos: () => Promise<void>
   postTodo: (data: Todo[]) => Promise<void>
   updateTodo: ({ id, title, completed }: UpdateTodoProps) => Promise<void>
+  deleteTodo: ({ id }: { id: uuid }) => Promise<void>
 
 }
 
@@ -40,9 +41,6 @@ export const useTodos = (): useTodosType => {
       if (!response.ok) {
         throw new Error('No se pudo enviar la tarea:' + response.statusText)
       }
-
-      // const responseData = await response.text()
-      // console.log('Respuesta del servidor: ', responseData)
     } catch (error) {
       throw new Error('Error al conectar')
     }
@@ -58,7 +56,7 @@ export const useTodos = (): useTodosType => {
         data.completed = completed
       }
 
-      const response = await fetch(`http://localhost:4567/todos/${id}`, {
+      const response = await fetch(`${API_URL.PATCH}${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -73,5 +71,19 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  return { getTodos, postTodo, updateTodo }
+  const deleteTodo = async ({ id }: { id: uuid }): Promise<void> => {
+    try {
+      const response = await fetch(`${API_URL.DELETE}${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error('No se pudo eliminar el todo:' + response.statusText)
+      }
+    } catch (error) {
+      throw new Error('Error al hacer la petición')
+    }
+  }
+
+  return { getTodos, postTodo, updateTodo, deleteTodo }
 }
