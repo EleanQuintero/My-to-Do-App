@@ -39,7 +39,7 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
     setTodos(newTodos)
   }
 
-  const handleUpdateTitle = ({ id, title }: { id: string, title: string }): void => {
+  const handleUpdateTitle = ({ id, title }: { id: number | string, title: string }): void => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         if (sync) {

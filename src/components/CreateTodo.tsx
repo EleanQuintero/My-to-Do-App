@@ -7,11 +7,12 @@ export const CreateTodo: React.FC = () => {
   const { todos, setTodos, sync } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
   const { postTodo, getTodos } = useTodos()
+  const [localId, setLocalId] = useState(0)
 
   const handleAddTodo = ({ title }: TodoTitle): void => {
     if (sync) {
       const newTodo = [{
-        id: crypto.randomUUID(),
+        id: 0,
         title,
         completed: false
       }]
@@ -19,8 +20,9 @@ export const CreateTodo: React.FC = () => {
       void getTodos()
     }
     if (!sync) {
+      setLocalId(localId + 1)
       const newLocalTodo = {
-        id: crypto.randomUUID(),
+        id: localId,
         title,
         completed: false
       }

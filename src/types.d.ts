@@ -1,13 +1,13 @@
 import { TODO_FILTERS } from './const'
 
 export interface Todo {
-  id: uuid
+  id: number | string
   title: string
   completed: boolean
 }
 
 export interface UpdateTodoProps {
-  id: uuid
+  id: number | string
   title?: string
   completed?: boolean
 }
@@ -31,7 +31,7 @@ export interface TodoContextType {
   filterSelected: FilterValue
   setFilterSelected: React.Dispatch<React.SetStateAction< FilterValue>>
   isEditing: string
-  setIsEditing: React.Dispatch<React.SetStateAction<string>>
+  setIsEditing: React.Dispatch<React.SetStateAction<number | string>>
   sync: boolean
   setSync: React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -8,7 +8,7 @@ import { ReloadIcon } from '../icons/icons'
 
 export const Footer: React.FC = () => {
   const { todos, setTodos, sync } = useContext<TodoContextType>(TodoContext)
-  const { getTodos, deleteTodo } = useTodos()
+  const { getTodos, deleteCompletedTodos } = useTodos()
   const activeCount = todos.filter(todo => !todo.completed).length
   const completedCount = todos.length - activeCount
 
@@ -19,11 +19,7 @@ export const Footer: React.FC = () => {
     }
 
     if (sync) {
-      const newTodos = todos.filter(todo => todo.completed)
-      for (let index = 0; index < newTodos.length; index++) {
-        const id = newTodos[index].id
-        void deleteTodo({ id })
-      }
+      void deleteCompletedTodos()
       void getTodos()
     }
   }
