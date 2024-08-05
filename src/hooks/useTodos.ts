@@ -1,14 +1,15 @@
 import { useCallback, useContext } from 'react'
 import { TodoContext } from '../contexts/todoContext'
 import { useFetchTodos } from '../services/getTodos'
-import { Todo, UpdateTodoProps, uuid } from '../types'
+import { Todo, UpdateTodoProps } from '../types'
 import { API_URL } from '../api_Endpoints/Endpoints'
 
 interface useTodosType {
   getTodos: () => Promise<void>
   postTodo: (data: Todo[]) => Promise<void>
   updateTodo: ({ id, title, completed }: UpdateTodoProps) => Promise<void>
-  deleteTodo: ({ id }: { id: uuid }) => Promise<void>
+  deleteTodo: ({ id }: { id: number | string }) => Promise<void>
+  deleteCompletedTodos: () => Promise<void>
 
 }
 
@@ -46,7 +47,7 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  const updateTodo = async ({ id, title, completed }: { id: uuid, title?: string, completed?: boolean }): Promise<void> => {
+  const updateTodo = async ({ id, title, completed }: { id: number | string, title?: string, completed?: boolean }): Promise<void> => {
     try {
       const data: { title?: string, completed?: boolean } = {}
       if (title !== undefined) {
@@ -71,7 +72,7 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  const deleteTodo = async ({ id }: { id: uuid }): Promise<void> => {
+  const deleteTodo = async ({ id }: { id: number | string }): Promise<void> => {
     try {
       const response = await fetch(`${API_URL.DELETE}${id}`, {
         method: 'DELETE'
@@ -85,5 +86,19 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  return { getTodos, postTodo, updateTodo, deleteTodo }
+  const deleteCompletedTodos = async (): Promise<void> => {
+    try {
+      const response = await fetch(`${API_URL.DELETE_COMPLETED_ALL}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        throw new Error('No se han podido eliminar los todos:' + response.statusText)
+      }
+    } catch (error) {
+      throw new Error('Error al hacer la petición')
+    }
+  }
+
+  return { getTodos, postTodo, updateTodo, deleteTodo, deleteCompletedTodos }
 }
