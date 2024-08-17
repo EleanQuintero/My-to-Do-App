@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "0.8.2",
+    "dotenv": "^16.4.5",
     "react": "18",
     "react-dom": "18",
     "todomvc-app-css": "^2.4.3"
