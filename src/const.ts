@@ -1,3 +1,5 @@
+import { Todo, userData, userLogedData } from './types'
+
 export const TODO_FILTERS = {
   ALL: 'all',
   ACTIVE: 'active',
@@ -18,3 +20,18 @@ export const FILTERS_BUTTONS = {
     href: `/?filters=${TODO_FILTERS.COMPLETED}`
   }
 } as const
+
+export const initialUserData: userData = {
+  username: '',
+  password: ''
+}
+
+export const initialvalue: Todo[] = []
+
+export const initialLogedUser: userLogedData = {
+  user: {
+    id: '',
+    username: '',
+    avatar: ''
+  }
+}

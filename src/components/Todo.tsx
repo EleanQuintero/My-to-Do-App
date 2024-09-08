@@ -7,7 +7,7 @@ interface Props extends TodoType {
 }
 
 export const Todo: React.FC <Props> = ({ id, title, completed }) => {
-  const { todos, setTodos, isEditing, setIsEditing, sync } = useContext(TodoContext)
+  const { todos, setTodos, isEditing, setIsEditing, sync, darkMode } = useContext(TodoContext)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputEditTitle = useRef<HTMLInputElement>(null)
   const { updateTodo, deleteTodo } = useTodos()
@@ -83,7 +83,7 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
 
   return (
     <>
-      <div className='view'>
+      <div className={`${darkMode ? 'view-dark' : 'view'}`}>
         <input
           className='toggle'
           checked={completed}
@@ -100,7 +100,7 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
       </div>
 
       <input
-        className='edit'
+        className={`${darkMode ? 'edit-dark' : 'edit'}`}
         value={editedTitle}
         onChange={(e) => { setEditedTitle(e.target.value) }}
         onKeyDown={handleKeyDown}

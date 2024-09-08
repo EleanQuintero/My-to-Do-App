@@ -4,7 +4,7 @@ import { TodoContext } from '../contexts/todoContext'
 import { useTodos } from '../hooks/useTodos'
 
 export const CreateTodo: React.FC = () => {
-  const { todos, setTodos, sync } = useContext<TodoContextType>(TodoContext)
+  const { todos, setTodos, sync, darkMode } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
   const { postTodo, getTodos } = useTodos()
   const [localId, setLocalId] = useState(0)
@@ -45,10 +45,10 @@ export const CreateTodo: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        className='new-todo'
+        className={`${darkMode ? 'new-todo-dark' : 'new-todo'}`}
         value={inputValue}
         onChange={(e) => { setInputValue(e.target.value) }}
-        placeholder='¿Que deseas hacer?'
+        placeholder='¿Cual sera tu proxima tarea?'
         autoFocus
       />
     </form>

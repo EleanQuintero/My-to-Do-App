@@ -1,16 +1,21 @@
-html {
-  filter: invert(1);
-}
-
 .reload-button{
-margin-left: 6px;
-  float: right;
-  position: relative;
-  line-height: 19px;
-  text-decoration: none;
-  cursor: pointer;
-}
+    margin-left: 6px;
+      float: right;
+      position: relative;
+      line-height: 19px;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-.body{
-  max-width: 578px;
-}
+    .reload-button-dark{
+      margin-left: 6px;
+        float: right;
+        position: relative;
+        line-height: 19px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    
+    .body{
+      max-width: 578px;
+    }
