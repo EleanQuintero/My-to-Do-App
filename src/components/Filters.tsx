@@ -4,14 +4,14 @@ import { FilterValue, TodoContextType } from '../types'
 import { TodoContext } from '../contexts/todoContext'
 
 export const Filters: React.FC = () => {
-  const { filterSelected, setFilterSelected } = useContext<TodoContextType>(TodoContext)
+  const { filterSelected, setFilterSelected, darkMode } = useContext<TodoContextType>(TodoContext)
 
   const handleFilterChange = (filter: FilterValue): void => {
     setFilterSelected(filter)
   }
 
   return (
-    <ul className='filters'>
+    <ul className={`${darkMode ? 'filters-dark' : 'filters'}`}>
       {
         Object.entries(FILTERS_BUTTONS).map(([key, { href, literal }]) => {
           const isSelected = key === filterSelected

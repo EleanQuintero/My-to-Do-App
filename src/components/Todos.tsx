@@ -6,6 +6,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useTodos } from '../hooks/useTodos'
 
 export const Todos: React.FC = () => {
+  const { darkMode } = useContext(TodoContext)
   const [parent] = useAutoAnimate()
   const { getTodos } = useTodos()
   const { todos, filterSelected, setIsEditing, isEditing } = useContext(TodoContext)
@@ -24,14 +25,16 @@ export const Todos: React.FC = () => {
   }, [])
 
   return (
-    <ul className='todo-list' ref={parent}>
+    <ul className={`${darkMode ? 'todo-list-dark' : 'todo-list'}`} ref={parent}>
       {filteredTodos?.map(todo => (
         <li
           key={todo.id}
           onDoubleClick={() => { setIsEditing(todo.id) }}
           className={`
             ${todo.completed ? 'completed' : ''} 
-            ${isEditing === todo.id ? 'editing' : ''}
+            ${isEditing === todo.id
+               ? `${darkMode ? 'editing-dark' : 'editing'}`
+               : ''}
             `}
         >
           <Todo

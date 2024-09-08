@@ -7,7 +7,7 @@ import { useTodos } from '../hooks/useTodos'
 import { ReloadIcon } from '../icons/icons'
 
 export const Footer: React.FC = () => {
-  const { todos, setTodos, sync } = useContext<TodoContextType>(TodoContext)
+  const { todos, setTodos, sync, darkMode } = useContext<TodoContextType>(TodoContext)
   const { getTodos, deleteCompletedTodos } = useTodos()
   const activeCount = todos.filter(todo => !todo.completed).length
   const completedCount = todos.length - activeCount
@@ -25,13 +25,13 @@ export const Footer: React.FC = () => {
   }
 
   return (
-    <footer className='footer'>
+    <footer className={`${darkMode ? 'footer-dark' : 'footer'}`}>
       <span className='todo-count'>
         <strong>{activeCount}</strong> tareas pendientes
       </span>
       <Filters />
       {sync
-        ? <button className='reload-button' onClick={getTodos}><ReloadIcon /></button>
+        ? <button className={`${darkMode ? 'reload-button-dark' : 'reload-button'}`} onClick={getTodos}><ReloadIcon /></button>
         : ''}
       {completedCount > 0 && (
         <button

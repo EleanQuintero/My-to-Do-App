@@ -34,4 +34,28 @@ export interface TodoContextType {
   setIsEditing: React.Dispatch<React.SetStateAction<number | string>>
   sync: boolean
   setSync: React.Dispatch<React.SetStateAction<boolean>>
+  data: userData
+  setData: React.Dispatch<React.SetStateAction<userData>>
+  userData: userLogedData
+  setUserData: React.Dispatch<React.SetStateAction<userLogedData>>
+  loged: boolean
+  isloged: React.Dispatch<React.SetStateAction<boolean>>
+  darkMode: boolean
+  setDarkmode: React.Dispatch<React.SetStateAction<boolean>>
+  loginError: boolean
+  setLoginError: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface userData {
+  username: string
+  password: string
+}
+
+export interface userLogedData {
+  user: {
+    id: string
+    username: string
+    avatar: string
+  }
+  Error?: String
 }
