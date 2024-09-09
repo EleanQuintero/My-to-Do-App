@@ -2,7 +2,7 @@ import { userData, userLogedData } from '../types'
 
 export const getUser = async ({ username, password }: userData): Promise<userLogedData> => {
   try {
-    const response = await fetch('http://localhost:5241/login', {
+    const response = await fetch('https://to-do-users-api.up.railway.app/login', {
       method: 'POST',
       credentials: 'include',
       headers: {
