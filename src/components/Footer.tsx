@@ -9,18 +9,22 @@ import { ReloadIcon } from '../icons/icons'
 export const Footer: React.FC = () => {
   const { todos, setTodos, sync, darkMode } = useContext<TodoContextType>(TodoContext)
   const { getTodos, deleteCompletedTodos } = useTodos()
-  const activeCount = todos.filter(todo => !todo.completed).length
+  const activeCount = todos.filter(todo => !todo.status).length
   const completedCount = todos.length - activeCount
 
   const handleRemoveAllCompleted = (): void => {
     if (!sync) {
-      const newLocalTodos = todos.filter(todo => !todo.completed)
+      const newLocalTodos = todos.filter(todo => !todo.status)
       setTodos(newLocalTodos)
     }
 
     if (sync) {
-      void deleteCompletedTodos()
-      void getTodos()
+      try {
+        void deleteCompletedTodos()
+        void getTodos()
+      } catch (e) {
+        throw new Error('No se han podido borrar las tareas')
+      }
     }
   }
 
