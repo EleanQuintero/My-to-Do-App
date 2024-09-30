@@ -1,36 +1,38 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { TodoId, Todo as TodoType } from '../types'
+import { DeleteTodoProps, Todo as TodoType, UpdateTodoProps } from '../types'
 import { TodoContext } from '../contexts/todoContext'
 import { useTodos } from '../hooks/useTodos'
 
 interface Props extends TodoType {
 }
 
-export const Todo: React.FC <Props> = ({ id, title, completed }) => {
+export const Todo: React.FC <Props> = ({ todoID, title, status }) => {
   const { todos, setTodos, isEditing, setIsEditing, sync, darkMode } = useContext(TodoContext)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputEditTitle = useRef<HTMLInputElement>(null)
   const { updateTodo, deleteTodo } = useTodos()
 
-  const handleRemove = ({ id }: TodoId): void => {
-    const newTodos = todos.filter(todo => todo.id !== id)
-    if (!sync) {
+  const handleRemove = ({ todoID }: DeleteTodoProps): void => {
+    const newTodos = todos.filter(todo => todo.todoID !== todoID)
+    try {
+      if (sync) {
+        void deleteTodo({ todoID })
+      }
+    } finally {
       setTodos(newTodos)
     }
-
-    void deleteTodo({ id })
-    setTodos(newTodos)
   }
 
-  const handleComplete = ({ id, completed }: Pick<TodoType, 'id' | 'completed'>): void => {
+  const handleComplete = ({ todoID, status }: Pick<TodoType, 'todoID' | 'status'>): void => {
+    const todoStatus = status
     const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
+      if (todo.todoID === todoID) {
         if (sync) {
-          void updateTodo({ id, completed })
+          void updateTodo({ todoID, todoStatus })
         }
         return {
           ...todo,
-          completed
+          status
         }
       }
       return todo
@@ -39,15 +41,15 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
     setTodos(newTodos)
   }
 
-  const handleUpdateTitle = ({ id, title }: { id: number | string, title: string }): void => {
+  const handleUpdateTitle = ({ todoID, todoTitle }: UpdateTodoProps): void => {
     const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
+      if (todo.todoID === todoID) {
         if (sync) {
-          void updateTodo({ id, title })
+          void updateTodo({ todoID, todoTitle })
         }
         return {
           ...todo,
-          title
+          todoTitle
         }
       }
       return todo
@@ -63,11 +65,11 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
     }
 
     if (editedTitle !== title) {
-      handleUpdateTitle({ id, title: editedTitle })
+      handleUpdateTitle({ todoID, todoTitle: editedTitle })
     }
 
     if (editedTitle === '') {
-      handleRemove({ id })
+      handleRemove({ todoID })
       setIsEditing('')
     }
 
@@ -86,16 +88,16 @@ export const Todo: React.FC <Props> = ({ id, title, completed }) => {
       <div className={`${darkMode ? 'view-dark' : 'view'}`}>
         <input
           className='toggle'
-          checked={completed}
+          checked={status}
           type='checkbox'
           onChange={(event) => {
-            handleComplete({ id, completed: event.target.checked })
+            handleComplete({ todoID, status: event.target.checked })
           }}
         />
         <label>{title}</label>
         <button
           className='destroy'
-          onClick={() => { handleRemove({ id }) }}
+          onClick={() => { handleRemove({ todoID }) }}
         />
       </div>
 

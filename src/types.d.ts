@@ -1,20 +1,35 @@
 import { TODO_FILTERS } from './const'
 
 export interface Todo {
-  id: number | string
+  todoID: number
+  userID?: string
   title: string
-  completed: boolean
+  status: boolean
+  created?: string
+}
+
+export interface Newtodo {
+  userID?: string
+  title: string
+  todo_status: boolean
 }
 
 export interface UpdateTodoProps {
-  id: number | string
-  title?: string
-  completed?: boolean
+  todoID: number
+  todoTitle?: string
+  todoStatus?: boolean
 }
 
-export type TodoId = Pick<Todo, 'id'>
+export interface DeleteTodoProps {
+  todoID: number
+}
+
+export type TodoId = Pick<Todo, 'todoID'>
 export type TodoTitle = Pick<Todo, 'title'>
-export type TodoCompleted = Pick<Todo, 'completed'>
+export type TodoCompleted = Pick<Todo, 'status'>
+export type userID = Pick<Todo, 'userID'>
+export type TodoCreated = Pick<Todo, 'created'>
+
 export type uuid = `${string}-${string}-${string}-${string}-${string}`
 
 export type FilterValue = typeof TODO_FILTERS [keyof typeof TODO_FILTERS]

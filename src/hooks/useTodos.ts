@@ -1,23 +1,24 @@
 import { useCallback, useContext } from 'react'
 import { TodoContext } from '../contexts/todoContext'
 import { useFetchTodos } from '../services/getTodos'
-import { Todo, UpdateTodoProps } from '../types'
+import { DeleteTodoProps, Newtodo, Todo, UpdateTodoProps } from '../types'
 import { API_URL } from '../api_Endpoints/Endpoints'
 
 interface useTodosType {
   getTodos: () => Promise<void>
-  postTodo: (data: Todo[]) => Promise<void>
-  updateTodo: ({ id, title, completed }: UpdateTodoProps) => Promise<void>
-  deleteTodo: ({ id }: { id: number | string }) => Promise<void>
+  postTodo: (data: Newtodo) => Promise<void>
+  updateTodo: ({ todoID, todoStatus, todoTitle }: UpdateTodoProps) => Promise<void>
+  deleteTodo: ({ todoID }: DeleteTodoProps) => Promise<void>
   deleteCompletedTodos: () => Promise<void>
 
 }
 
 export const useTodos = (): useTodosType => {
-  const { setTodos, setSync } = useContext(TodoContext)
+  const { setTodos, setSync, userData } = useContext(TodoContext)
+  const userId = userData.user.id
   const getTodos = useCallback(async (): Promise<void> => {
     try {
-      const newTodos = await useFetchTodos()
+      const newTodos = await useFetchTodos(userId)
       if (newTodos !== undefined) {
         setSync(true)
         setTodos(newTodos)
@@ -30,7 +31,7 @@ export const useTodos = (): useTodosType => {
     }
   }, [])
 
-  const postTodo = async (data: Todo[]): Promise<void> => {
+  const postTodo = async (data: Newtodo): Promise<void> => {
     try {
       const response = await fetch(API_URL.POST, {
         method: 'POST',
@@ -47,17 +48,18 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  const updateTodo = async ({ id, title, completed }: { id: number | string, title?: string, completed?: boolean }): Promise<void> => {
+  const updateTodo = async ({ todoID, todoTitle, todoStatus }: UpdateTodoProps): Promise<void> => {
     try {
-      const data: { title?: string, completed?: boolean } = {}
-      if (title !== undefined) {
-        data.title = title
+      const data: { todo_title?: string, todo_status?: boolean } = {}
+      if (todoTitle !== undefined) {
+        data.todo_title = todoTitle
       }
-      if (completed !== undefined) {
-        data.completed = completed
+      if (todoStatus !== undefined) {
+        data.todo_status = todoStatus
       }
+      console.log(data)
 
-      const response = await fetch(`${API_URL.PATCH}${id}`, {
+      const response = await fetch(`${API_URL.PATCH}${todoID}/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -72,9 +74,9 @@ export const useTodos = (): useTodosType => {
     }
   }
 
-  const deleteTodo = async ({ id }: { id: number | string }): Promise<void> => {
+  const deleteTodo = async ({ todoID }: DeleteTodoProps): Promise<void> => {
     try {
-      const response = await fetch(`${API_URL.DELETE}${id}`, {
+      const response = await fetch(`${API_URL.DELETE}${todoID}`, {
         method: 'DELETE'
       })
 
@@ -88,7 +90,7 @@ export const useTodos = (): useTodosType => {
 
   const deleteCompletedTodos = async (): Promise<void> => {
     try {
-      const response = await fetch(`${API_URL.DELETE_COMPLETED_ALL}`, {
+      const response = await fetch(`${API_URL.DELETE_COMPLETED_ALL}${userId}`, {
         method: 'DELETE'
       })
 

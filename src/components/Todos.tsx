@@ -1,47 +1,37 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Todo } from './Todo'
 import { TodoContext } from '../contexts/todoContext'
 import { TODO_FILTERS } from '../const'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { useTodos } from '../hooks/useTodos'
 
 export const Todos: React.FC = () => {
   const { darkMode } = useContext(TodoContext)
   const [parent] = useAutoAnimate()
-  const { getTodos } = useTodos()
   const { todos, filterSelected, setIsEditing, isEditing } = useContext(TodoContext)
   const filteredTodos = todos.filter(todo => {
-    if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.completed
-    if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
+    if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.status
+    if (filterSelected === TODO_FILTERS.COMPLETED) return todo.status
     return todo
   })
 
-  useEffect(() => {
-    try {
-      void getTodos()
-    } catch {
-      console.error('Error fetching todos')
-    }
-  }, [])
-
   return (
     <ul className={`${darkMode ? 'todo-list-dark' : 'todo-list'}`} ref={parent}>
-      {filteredTodos?.map(todo => (
+      {filteredTodos.map(todo => (
         <li
-          key={todo.id}
-          onDoubleClick={() => { setIsEditing(todo.id) }}
+          key={todo.todoID}
+          onDoubleClick={() => { setIsEditing(todo.todoID) }}
           className={`
-            ${todo.completed ? 'completed' : ''} 
-            ${isEditing === todo.id
+            ${todo.status ? 'completed' : ''} 
+            ${isEditing === todo.todoID
                ? `${darkMode ? 'editing-dark' : 'editing'}`
                : ''}
             `}
         >
           <Todo
-            key={todo.id}
-            id={todo.id}
+            key={todo.todoID}
+            todoID={todo.todoID}
             title={todo.title}
-            completed={todo.completed}
+            status={todo.status}
           />
         </li>
       ))}

@@ -4,27 +4,30 @@ import { TodoContext } from '../contexts/todoContext'
 import { useTodos } from '../hooks/useTodos'
 
 export const CreateTodo: React.FC = () => {
-  const { todos, setTodos, sync, darkMode } = useContext<TodoContextType>(TodoContext)
+  const { todos, setTodos, sync, darkMode, userData } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
   const { postTodo, getTodos } = useTodos()
   const [localId, setLocalId] = useState(0)
 
   const handleAddTodo = ({ title }: TodoTitle): void => {
     if (sync) {
-      const newTodo = [{
-        id: 0,
-        title,
-        completed: false
-      }]
-      void postTodo(newTodo)
-      void getTodos()
+      try {
+        const newTodo = {
+          userid: userData.user.id,
+          title,
+          todo_status: false
+        }
+        void postTodo(newTodo)
+      } catch (e) {
+        throw new Error('error al enviar el todo')
+      }
     }
     if (!sync) {
       setLocalId(localId + 1)
       const newLocalTodo = {
-        id: localId,
+        todoID: localId,
         title,
-        completed: false
+        status: false
       }
       const newTodos = [...todos, newLocalTodo]
       setTodos(newTodos)
@@ -39,6 +42,7 @@ export const CreateTodo: React.FC = () => {
     if (inputValue !== '') {
       handleAddTodo({ title: inputValue })
       setInputValue('')
+      void getTodos()
     }
   }
 
