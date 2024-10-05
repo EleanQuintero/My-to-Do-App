@@ -17,8 +17,9 @@ export const CreateTodo: React.FC = () => {
           title,
           todo_status: false
         }
-        void postTodo(newTodo)
-        await getTodos()
+        console.time()
+        await Promise.all([postTodo(newTodo), getTodos()])
+        console.timeEnd()
       } catch (e) {
         throw new Error('error al enviar el todo')
       }
