@@ -9,7 +9,7 @@ export const CreateTodo: React.FC = () => {
   const { postTodo, getTodos } = useTodos()
   const [localId, setLocalId] = useState(0)
 
-  const handleAddTodo = ({ title }: TodoTitle): void => {
+  const handleAddTodo = async ({ title }: TodoTitle): Promise<void> => {
     if (sync) {
       try {
         const newTodo = {
@@ -17,7 +17,8 @@ export const CreateTodo: React.FC = () => {
           title,
           todo_status: false
         }
-        void postTodo(newTodo)
+        await postTodo(newTodo)
+        await getTodos()
       } catch (e) {
         throw new Error('error al enviar el todo')
       }
@@ -34,20 +35,19 @@ export const CreateTodo: React.FC = () => {
     }
   }
 
-  const handleSubmit = (Event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (Event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     Event.preventDefault()
 
     if (inputValue === '') setInputValue('')
 
     if (inputValue !== '') {
-      handleAddTodo({ title: inputValue })
+      await handleAddTodo({ title: inputValue })
       setInputValue('')
-      void getTodos()
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(event) => { void handleSubmit(event) }}>
       <input
         className={`${darkMode ? 'new-todo-dark' : 'new-todo'}`}
         value={inputValue}

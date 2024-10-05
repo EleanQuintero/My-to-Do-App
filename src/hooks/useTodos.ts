@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import { TodoContext } from '../contexts/todoContext'
 import { useFetchTodos } from '../services/getTodos'
 import { DeleteTodoProps, Newtodo, Todo, UpdateTodoProps } from '../types'
@@ -14,13 +14,12 @@ interface useTodosType {
 }
 
 export const useTodos = (): useTodosType => {
-  const { setTodos, setSync, userData } = useContext(TodoContext)
+  const { setTodos, userData } = useContext(TodoContext)
   const userId = userData.user.id
-  const getTodos = useCallback(async (): Promise<void> => {
+  const getTodos = async (): Promise<void> => {
     try {
       const newTodos = await useFetchTodos(userId)
       if (newTodos !== undefined) {
-        setSync(true)
         setTodos(newTodos)
       } else {
         const initialValue: Todo[] = []
@@ -29,7 +28,7 @@ export const useTodos = (): useTodosType => {
     } catch (error) {
       console.error('Error fetching tasks:', error)
     }
-  }, [])
+  }
 
   const postTodo = async (data: Newtodo): Promise<void> => {
     try {

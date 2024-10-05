@@ -4,7 +4,7 @@ import { TodoContext } from '../contexts/todoContext'
 import { useLogin } from '../hooks/useLogin'
 
 export const Login: React.FC = () => {
-  const { setData, data, loginError } = useContext(TodoContext)
+  const { setData, setSync, data, loginError } = useContext(TodoContext)
   try {
     useEffect(() => {
       if (data.username.length > 1) {
@@ -19,6 +19,7 @@ export const Login: React.FC = () => {
     event.preventDefault()
     const LogData = Object.fromEntries(new window.FormData(event.currentTarget)) as unknown as userData
     setData(LogData)
+    setSync(true)
   }
 
   return (

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import React, { useContext } from 'react'
 import { Filters } from './Filters'
 import { TodoContextType } from '../types'
@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
   const activeCount = todos.filter(todo => !todo.status).length
   const completedCount = todos.length - activeCount
 
-  const handleRemoveAllCompleted = (): void => {
+  const handleRemoveAllCompleted = async (): Promise<void> => {
     if (!sync) {
       const newLocalTodos = todos.filter(todo => !todo.status)
       setTodos(newLocalTodos)
@@ -20,8 +20,8 @@ export const Footer: React.FC = () => {
 
     if (sync) {
       try {
-        void deleteCompletedTodos()
-        void getTodos()
+        await deleteCompletedTodos()
+        await getTodos()
       } catch (e) {
         throw new Error('No se han podido borrar las tareas')
       }
@@ -35,12 +35,12 @@ export const Footer: React.FC = () => {
       </span>
       <Filters />
       {sync
-        ? <button className={`${darkMode ? 'reload-button-dark' : 'reload-button'}`} onClick={getTodos}><ReloadIcon /></button>
+        ? <button className={`${darkMode ? 'reload-button-dark' : 'reload-button'}`} onClick={() => { void getTodos }}><ReloadIcon /></button>
         : ''}
       {completedCount > 0 && (
         <button
           className='clear-completed'
-          onClick={handleRemoveAllCompleted}
+          onClick={() => { void handleRemoveAllCompleted }}
         >
           Borrar completadas
         </button>
