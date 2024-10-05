@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
 
     if (sync) {
       try {
-        await deleteCompletedTodos()
+        void deleteCompletedTodos()
         await getTodos()
       } catch (e) {
         throw new Error('No se han podido borrar las tareas')
