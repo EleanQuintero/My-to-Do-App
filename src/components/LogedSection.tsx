@@ -7,8 +7,6 @@ import { useTodos } from '../hooks/useTodos'
 export const LogedSection = (): React.JSX.Element => {
   const { userData, darkMode, isloged, loged, setData, setTodos } = useContext(TodoContext)
   const { getTodos } = useTodos()
-  const id = userData.user.id
-  console.log(id)
 
   const handleClick = (): void => {
     void logout()
