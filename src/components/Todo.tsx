@@ -10,7 +10,7 @@ export const Todo: React.FC <Props> = ({ todoID, title, status }) => {
   const { todos, setTodos, isEditing, setIsEditing, sync, darkMode } = useContext(TodoContext)
   const [editedTitle, setEditedTitle] = useState(title)
   const inputEditTitle = useRef<HTMLInputElement>(null)
-  const { updateTodo, deleteTodo } = useTodos()
+  const { updateTodo, deleteTodo, getTodos } = useTodos()
 
   const handleRemove = ({ todoID }: DeleteTodoProps): void => {
     const newTodos = todos.filter(todo => todo.todoID !== todoID)
@@ -59,23 +59,27 @@ export const Todo: React.FC <Props> = ({ todoID, title, status }) => {
   }
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter') {
-      setEditedTitle(editedTitle.trim())
-      setIsEditing('')
-    }
+    try {
+      if (e.key === 'Enter') {
+        setEditedTitle(editedTitle.trim())
+        setIsEditing('')
+      }
 
-    if (editedTitle !== title) {
-      handleUpdateTitle({ todoID, todoTitle: editedTitle })
-    }
+      if (editedTitle !== title) {
+        handleUpdateTitle({ todoID, todoTitle: editedTitle })
+      }
 
-    if (editedTitle === '') {
-      handleRemove({ todoID })
-      setIsEditing('')
-    }
+      if (editedTitle === '') {
+        handleRemove({ todoID })
+        setIsEditing('')
+      }
 
-    if (e.key === 'Escape') {
-      setEditedTitle(title)
-      setIsEditing('')
+      if (e.key === 'Escape') {
+        setEditedTitle(title)
+        setIsEditing('')
+      }
+    } finally {
+      void getTodos()
     }
   }
 
