@@ -7,7 +7,8 @@ export const CreateTodo: React.FC = () => {
   const { todos, setTodos, sync, darkMode, userData } = useContext<TodoContextType>(TodoContext)
   const [inputValue, setInputValue] = useState('')
   const { postTodo, getTodos } = useTodos()
-  const [localId, setLocalId] = useState(0)
+  const [localId, setLocalId] = useState(todos.length)
+  const [error, setError] = useState<string | null>(null)
 
   const handleAddTodo = async ({ title }: TodoTitle): Promise<void> => {
     if (sync) {
@@ -19,29 +20,29 @@ export const CreateTodo: React.FC = () => {
         }
         await postTodo(newTodo)
         await getTodos()
+        setError(null) // Reset error only after successful sync
       } catch (e) {
-        throw new Error('error al enviar el todo')
+        setError('Error al enviar el todo')
+        console.error(error)
       }
-    }
-    if (!sync) {
-      setLocalId(localId + 1)
+    } else {
       const newLocalTodo = {
         todoID: localId,
         title,
         status: false
       }
+      setLocalId(localId + 1)
       const newTodos = [...todos, newLocalTodo]
       setTodos(newTodos)
+      setError(null) // No API call, so reset error immediately
     }
   }
 
-  const handleSubmit = async (Event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    Event.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
 
-    if (inputValue === '') setInputValue('')
-
-    if (inputValue !== '') {
-      await handleAddTodo({ title: inputValue })
+    if (inputValue.trim() !== '') {
+      await handleAddTodo({ title: inputValue.trim() })
       setInputValue('')
     }
   }
@@ -52,10 +53,9 @@ export const CreateTodo: React.FC = () => {
         className={`${darkMode ? 'new-todo-dark' : 'new-todo'}`}
         value={inputValue}
         onChange={(e) => { setInputValue(e.target.value) }}
-        placeholder='¿Cual sera tu proxima tarea?'
+        placeholder='¿Cuál será tu próxima tarea?'
         autoFocus
       />
     </form>
-
   )
 }

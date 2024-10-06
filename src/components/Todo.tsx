@@ -80,8 +80,10 @@ export const Todo: React.FC <Props> = ({ todoID, title, status }) => {
   }
 
   useEffect(() => {
-    inputEditTitle.current?.focus()
-  }, [isEditing])
+    if (isEditing === todoID.toString()) {
+      inputEditTitle.current?.focus()
+    }
+  }, [isEditing, todoID])
 
   return (
     <>

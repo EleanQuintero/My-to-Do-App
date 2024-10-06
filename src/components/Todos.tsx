@@ -19,10 +19,10 @@ export const Todos: React.FC = () => {
       {filteredTodos.map(todo => (
         <li
           key={todo.todoID}
-          onDoubleClick={() => { setIsEditing(todo.todoID) }}
+          onDoubleClick={() => { setIsEditing(todo.todoID.toString()) }}
           className={`
             ${todo.status ? 'completed' : ''} 
-            ${isEditing === todo.todoID
+            ${isEditing === todo.todoID.toString()
                ? `${darkMode ? 'editing-dark' : 'editing'}`
                : ''}
             `}

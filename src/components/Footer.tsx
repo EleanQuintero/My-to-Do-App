@@ -16,11 +16,9 @@ export const Footer: React.FC = () => {
     if (!sync) {
       const newLocalTodos = todos.filter(todo => !todo.status)
       setTodos(newLocalTodos)
-    }
-
-    if (sync) {
+    } else {
       try {
-        void deleteCompletedTodos()
+        await deleteCompletedTodos()
         await getTodos()
       } catch (e) {
         throw new Error('No se han podido borrar las tareas')
@@ -35,12 +33,24 @@ export const Footer: React.FC = () => {
       </span>
       <Filters />
       {sync
-        ? <button className={`${darkMode ? 'reload-button-dark' : 'reload-button'}`} onClick={() => { void getTodos }}><ReloadIcon /></button>
+        ? <button
+            className={`${darkMode ? 'reload-button-dark' : 'reload-button'}`}
+            onClick={() => {
+              getTodos().catch(() => {
+              // Handle error if necessary
+              })
+            }}
+          ><ReloadIcon />
+          </button>
         : ''}
       {completedCount > 0 && (
         <button
           className='clear-completed'
-          onClick={() => { void handleRemoveAllCompleted }}
+          onClick={() => {
+            handleRemoveAllCompleted().catch(() => {
+              // Handle error if necessary
+            })
+          }}
         >
           Borrar completadas
         </button>
