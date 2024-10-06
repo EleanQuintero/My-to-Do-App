@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "farm start",
     "start": "farm start",
-    "build": "farm build",
+    "build": "NODE_ENV=production farm build",
     "preview": "farm preview",
     "clean": "farm clean"
   },
@@ -20,6 +20,7 @@
     "@farmfe/cli": "^1.0.2",
     "@farmfe/core": "^1.2.4",
     "@farmfe/plugin-react": "^1.1.0",
+    "@types/node": "^22.7.4",
     "@types/react": "18",
     "@types/react-dom": "18",
     "core-js": "^3.36.1",
