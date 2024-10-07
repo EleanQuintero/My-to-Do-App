@@ -1,4 +1,4 @@
- /* export const API_URL = {
+ /* export const aPI = {
   GET: 'http://localhost:4567/todos/',
   POST: 'http://localhost:4567/todos/newTodo',
   PATCH: 'http://localhost:4567/todos/update/',
