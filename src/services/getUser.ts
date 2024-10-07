@@ -1,8 +1,9 @@
+import { API_URL } from '../api_Endpoints/Endpoints'
 import { userData, userLogedData } from '../types'
 
 export const getUser = async ({ username, password }: userData): Promise<userLogedData> => {
   try {
-    const response = await fetch('https://to-do-users-api.up.railway.app/login', {
+    const response = await fetch(API_URL.LOGIN, {
       method: 'POST',
       credentials: 'include',
       headers: {
