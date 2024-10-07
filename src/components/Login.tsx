@@ -6,6 +6,8 @@ import { useLogin } from '../hooks/useLogin'
 export const Login: React.FC = () => {
   const { setData, setSync, data, loginError } = useContext(TodoContext)
   const { logedUser } = useLogin()
+  const API = import.meta.env.VITE_API_URL_GET
+  console.log(API)
 
   useEffect(() => {
     if (data.username.length > 1) {
