@@ -22,7 +22,7 @@ export const Login: React.FC = () => {
 
   return (
     <>
-      <h1 className='welcome-message'>Bienvenido a My toDo!</h1>
+      <h1 className='welcome-message '>Bienvenido a My toDo!</h1>
       <form className='login-input' autoComplete='off' onSubmit={handleSubmitLog} action=''>
         <input
           name='username' type='text' placeholder='Nombre de usuario'

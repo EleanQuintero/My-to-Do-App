@@ -10,7 +10,7 @@ export const UserSection = (): React.JSX.Element => {
   return (
     <>
       <LoginIcon />
-      <section className={`${darkMode ? 'login-dark' : 'login'}`}>
+      <section className={`${darkMode ? 'login-dark z-10' : 'login z-10'}`}>
         {
             loged
               ? <LogedSection />
