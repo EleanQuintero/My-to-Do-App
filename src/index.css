@@ -1,10 +1,13 @@
 @charset 'utf-8';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .title{
 	position: absolute;
 	top: -140px;
 	width: 100%;
-	font-size: 80px;
+	font-size: 4em;
 	font-weight: 200;
 	text-align: center;
 	color: #b83f45;
@@ -278,7 +281,7 @@ button {
 
 .footer {
 	padding: 10px 15px;
-	height: 20px;
+	height: 60px;
 	text-align: center;
 	font-size: 15px;
 	border-top: 1px solid #e6e6e6;
@@ -291,7 +294,7 @@ button {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	height: 50px;
+	height: 60px;
 	overflow: hidden;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
 	            0 8px 0 -3px #f6f6f6,
@@ -531,7 +534,7 @@ html .clear-completed:active {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	height: 50px;
+	height: 60px;
 	overflow: hidden;
 	box-shadow: 0 1px 1px rgba(055, 251, 251, 0.466),
 	            0 8px 0 -3px #000000d7,
@@ -542,7 +545,7 @@ html .clear-completed:active {
 
 .footer-dark {
 	padding: 10px 15px;
-	height: 20px;
+	height: 60px;
 	text-align: center;
 	font-size: 15px;
 	border-top: 1px solid rgba(055, 251, 251, 0.466);
@@ -759,7 +762,7 @@ html .clear-completed:active {
 }
 
 .body-dark{
-	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height: 1.4em;
 	background: #121212;
 	color: #dddddd;
@@ -773,7 +776,7 @@ html .clear-completed:active {
 
 .title-dark{
 	position: absolute;
-	font-size: 80px;
+	font-size: 4em;
 	top: -140px;
 	width: 100%;
 	font-weight: 200;

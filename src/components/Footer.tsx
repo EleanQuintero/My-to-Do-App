@@ -27,9 +27,9 @@ export const Footer: React.FC = () => {
   }
 
   return (
-    <footer className={`${darkMode ? 'footer-dark' : 'footer'}`}>
-      <span className='todo-count'>
-        <strong>{activeCount}</strong> tareas pendientes
+    <footer className={`${darkMode ? 'footer-dark md:h-10' : 'footer md:h-10'}`}>
+      <span className='todo-count flex'>
+        <strong className='w-20 md:w-36 gap-1 '>{activeCount} tareas pendientes</strong> 
       </span>
       <Filters />
       {sync
@@ -46,14 +46,14 @@ export const Footer: React.FC = () => {
         : ''}
       {completedCount > 0 && (
         <button
-          className='clear-completed'
+          className='clear-completed flex'
           onClick={() => {
             handleRemoveAllCompleted().catch(() => {
               // Handle error if necessary
             })
           }}
         >
-          Borrar completadas
+         <span className='w-20 md:w-36 gap-1'>Borrar completadas</span>
         </button>
       )}
     </footer>
