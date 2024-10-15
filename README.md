@@ -1,50 +1,78 @@
-# React + TypeScript + Vite
+# My ToDo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación de lista de tareas desarrollada con React, TypeScript y Vite. 
 
-Currently, two official plugins are available:
+## Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+La aplicación permite a los usuarios crear, editar y eliminar tareas. El propósito del proyecto es demostrar un ejemplo básico de cómo se puede integrar React con TypeScript usando Vite para un desarrollo eficiente y rápido.
 
-## Expanding the ESLint configuration
+## Tecnologías Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: Biblioteca para la construcción de interfaces de usuario.
+- **TypeScript**: Superset de JavaScript que añade tipado estático.
+- **Vite**: Herramienta de desarrollo que ofrece un entorno más rápido y moderno.
+- **ESLint**: Herramienta para garantizar la calidad del código.
+- **SWC o Babel**: Utilizado para Fast Refresh durante el desarrollo.
 
-- Configure the top-level `parserOptions` property like this:
+## Instalación
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Sigue estos pasos para configurar el proyecto en tu máquina local:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Clona este repositorio.
+   ```bash
+   git clone https://github.com/EleanQuintero/My-to-Do-App
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Navega al directorio del proyecto.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+
+cd my-todo-app
+Instala las dependencias.
+
+
+npm install
+
+## Scripts Disponibles
+Dentro del directorio del proyecto, puedes ejecutar:
+
+npm run dev: Corre la aplicación en modo desarrollo utilizando Vite.
+
+npm run build: Construye la aplicación para producción.
+
+npm run serve: Sirve la aplicación construida localmente.
+
+npm run lint: Linter para encontrar y arreglar problemas de estilo y errores.
+
+## Configuración de ESLint
+Si deseas desarrollar una aplicación para producción, se recomienda expandir la configuración de ESLint para habilitar reglas de linting basadas en el tipo:
+
+Asegúrate de configurar parserOptions correctamente en el archivo de configuración.
+
+Considera usar tseslint.configs.recommendedTypeChecked o tseslint.configs.strictTypeChecked.
+
+Instala y configura eslint-plugin-react para habilitar reglas específicas de React.
+
+
+## Funciones Principales
+
+La aplicación My ToDo App incluye las siguientes funciones clave:
+
+1. **Agregar Tarea**
+   - Proporciona una interfaz para añadir nuevas tareas a la lista con detalles como el título
+
+2. **Editar Tarea**
+   - Permite modificar la información de una tarea existente, incluyendo su título y descripción
+
+3. **Eliminar Tarea**
+   - Opción para eliminar una tarea no deseada
+
+4. **Marcar Tarea como Completa**
+   - Permite marcar tareas como completadas, ayudando a los usuarios a seguir su progreso.
+
+5. **Filtrar y Buscar Tareas (Aun no disponible)**
+   - Los usuarios pueden buscar tareas específicas o filtrar las tareas por estado, fecha o prioridad.
+
+Contribución
+Si deseas contribuir a este proyecto, por favor crea un fork del repositorio y envía un pull request con tus mejoras.
+
+Licencia
+Este proyecto está licenciado bajo la Licencia MIT. Para más información, consulta el archivo LICENSE.
